@@ -1,16 +1,25 @@
 package org.example;
 
-import java.util.Arrays;
-import java.util.Scanner;
+
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(Arrays.asList(args));
-        Scanner scanner = new Scanner(System.in);
+        javax.swing.SwingUtilities.invokeLater(() -> runGui(args));
+    }
 
-        String a;
-        while (!(a = scanner.nextLine()).equals("q")){
-            System.out.println(a);
+    private static void runGui(String[] args) {
+        JFrame frame = new JFrame("Photo viewer");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JLabel label = new JLabel();
+        if (args.length > 0){
+            label.setText(args[0]);
+        }else {
+            label.setText("no file");
         }
+        frame.getContentPane().add(label);
+        frame.pack();
+        frame.setLocation(200,200);
+        frame.setVisible(true);
     }
 }
