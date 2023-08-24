@@ -9,6 +9,8 @@ public class Main {
     }
 
     private static void runGui(String[] args) {
-        new ImageFrame(args);
+        ImageFrame imageFrame = new ImageFrame(args);
+        imageFrame.setLocation(200,200);
+
     }
 }
