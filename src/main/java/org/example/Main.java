@@ -11,6 +11,6 @@ public class Main {
     private static void runGui(String[] args) {
         ImageFrame imageFrame = new ImageFrame(args);
         imageFrame.setLocation(200,200);
-
+        imageFrame.setVisible(true);
     }
 }

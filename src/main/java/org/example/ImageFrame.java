@@ -4,10 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
 public class ImageFrame extends JFrame{
+    int xDragged, yDragged, xPressed, yPressed;
     Image baseImage;
     ImageObserver imageObserver;
     int baseImageHeight, baseImageWidth;
@@ -23,8 +26,26 @@ public class ImageFrame extends JFrame{
                 }
             }
         });
+        this.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                xDragged = e.getX();
+                yDragged = e.getY();
+                JFrame me = (JFrame) e.getSource();
+                me.setLocation(me.getX() + xDragged - xPressed,
+                        me.getY() + yDragged - yPressed);
+                //me.setLocation(xDragged, yDragged);
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                xPressed = e.getX();
+                yPressed = e.getY();
+            }
+        });
         ImageIcon image;
         JLabel label = new JLabel();
+        this.setUndecorated(true);
         if (args.length > 0){
             image = new ImageIcon(args[0]);
             baseImage = image.getImage();
@@ -36,7 +57,7 @@ public class ImageFrame extends JFrame{
 
 
                 double prevScale = scale;
-                scale-=e.getScrollAmount() * e.getWheelRotation();
+                scale*=1. - ((double)(e.getScrollAmount() * e.getWheelRotation())/50.);
 
                 Image newImg = getScaledImage(baseImage, (int)(baseImageWidth/100*scale), (int)(baseImageHeight/100*scale));
                 image.setImage(newImg);
@@ -54,7 +75,7 @@ public class ImageFrame extends JFrame{
         this.getContentPane().add(label);
         this.pack();
 
-        this.setVisible(true);
+
 
 
     }
